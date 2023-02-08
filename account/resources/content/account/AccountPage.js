@@ -51,7 +51,9 @@ export class AccountPage extends React.Component {
         firstName: '',
         lastName: '',
         email: '',
-        idNumber: ''
+        idNumber: '',
+        contactNumber: '',
+        profilePhoto: ''
       },
       formFields: {
         username: '',
@@ -60,11 +62,15 @@ export class AccountPage extends React.Component {
         email: '',
         attributes: {
           idNumber: '',
+        contactNumber: '',
+        profilePhoto: ''
         }
       }
     });
 
     _defineProperty(this, "state", this.DEFAULT_STATE);
+
+    _defineProperty(this, "filename", '');
 
     _defineProperty(this, "handleCancel", () => {
       this.fetchPersonalInfo();
@@ -216,6 +222,28 @@ export class AccountPage extends React.Component {
     }, /*#__PURE__*/React.createElement(Msg, {
       msgKey: "updateEmail"
     }))))), React.createElement(FormGroup, {
+      label: Msg.localize("profilePicture"),
+      fieldId: "profilePicture",
+      helperTextInvalid: this.state.errors.profilePicture,
+      validated: this.state.errors.profilePicture !== "" ? ValidatedOptions.error : ValidatedOptions.default
+    },  /*#__PURE__*/React.createElement(FileUpload, {
+      id: "profilePicture",
+      value: fields.attributes.profilePicture,
+      filename: this.filename,
+      filenamePlaceholder: "Drag and drop a file or upload one",
+      onFileInputChange: (_event, file)=>{
+        this.setFilename(file.name);
+      },
+      onClearClick: ()=>this.setState({
+        errors: this.state.errors,
+        formFields: { ...this.state.formFields,
+          attributes: { ...this.state.formFields.attributes,
+            profilePhoto: ''
+          }
+        }
+      }),
+      browseButtonText: "Upload Photo"
+    })), React.createElement(FormGroup, {
       label: Msg.localize("contactNumber"),
       fieldId: "contactNumber",
       helperTextInvalid: this.state.errors.contactNumber,
