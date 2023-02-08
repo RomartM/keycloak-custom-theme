@@ -238,6 +238,22 @@ export class AccountPage extends React.Component {
         }
       }),
       validated: this.state.errors.idNumber !== "" ? ValidatedOptions.error : ValidatedOptions.default
+    })), /*#__PURE__*/React.createElement(TextInput, {
+      isRequired: true,
+      type: "text",
+      id: "contactNumber",
+      name: "contactNumber",
+      maxLength: 254,
+      value: fields.attributes.contactNumber,
+      onChange: value => this.setState({
+        errors: this.state.errors,
+        formFields: { ...this.state.formFields,
+          attributes: { ...this.state.formFields.attributes,
+            contactNumber: [value]
+          }
+        }
+      }),
+      validated: this.state.errors.idNumber !== "" ? ValidatedOptions.error : ValidatedOptions.default
     })),fields.firstName != undefined && /*#__PURE__*/React.createElement(FormGroup, {
       label: Msg.localize("firstName"),
       fieldId: "first-name",
@@ -275,23 +291,7 @@ export class AccountPage extends React.Component {
       fieldId: "contactNumber",
       helperTextInvalid: this.state.errors.contactNumber,
       validated: this.state.errors.contactNumber !== "" ? ValidatedOptions.error : ValidatedOptions.default
-    }, /*#__PURE__*/React.createElement(TextInput, {
-      isRequired: true,
-      type: "text",
-      id: "contactNumber",
-      name: "contactNumber",
-      maxLength: 254,
-      value: fields.attributes.contactNumber,
-      onChange: value => this.setState({
-        errors: this.state.errors,
-        formFields: { ...this.state.formFields,
-          attributes: { ...this.state.formFields.attributes,
-            contactNumber: [value]
-          }
-        }
-      }),
-      validated: this.state.errors.idNumber !== "" ? ValidatedOptions.error : ValidatedOptions.default
-    })), /*#__PURE__*/React.createElement(LocaleSelector, {
+    }, /*#__PURE__*/React.createElement(LocaleSelector, {
       id: "locale-selector",
       value: fields.attributes.locale || "",
       onChange: value => this.setState({
