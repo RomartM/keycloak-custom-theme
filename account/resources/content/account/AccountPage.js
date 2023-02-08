@@ -58,8 +58,9 @@ export class AccountPage extends React.Component {
         firstName: '',
         lastName: '',
         email: '',
-        idNumber: '',
-        attributes: {}
+        attributes: {
+          idNumber: '',
+        }
       }
     });
 
@@ -225,8 +226,15 @@ export class AccountPage extends React.Component {
       id: "idNumber",
       name: "idNumber",
       maxLength: 254,
-      value: fields.idNumber,
-      onChange: this.handleChange,
+      value: fields.attributes.idNumber,
+      onChange: value => this.setState({
+        errors: this.state.errors,
+        formFields: { ...this.state.formFields,
+          attributes: { ...this.state.formFields.attributes,
+            idNumber: [value]
+          }
+        }
+      }),
       validated: this.state.errors.idNumber !== "" ? ValidatedOptions.error : ValidatedOptions.default
     })),fields.firstName != undefined && /*#__PURE__*/React.createElement(FormGroup, {
       label: Msg.localize("firstName"),
