@@ -216,14 +216,14 @@ export class AccountPage extends React.Component {
       msgKey: "updateEmail"
     }))))), React.createElement(FormGroup, {
       label: Msg.localize("idNumber"),
-      fieldId: "id-number",
+      fieldId: "idNumber",
       helperTextInvalid: this.state.errors.idNumber,
       validated: this.state.errors.idNumber !== "" ? ValidatedOptions.error : ValidatedOptions.default
     }, /*#__PURE__*/React.createElement(TextInput, {
       isRequired: true,
       type: "text",
-      id: "id-number",
-      name: "id-number",
+      id: "idNumber",
+      name: "idNumber",
       maxLength: 254,
       value: fields.idNumber,
       onChange: this.handleChange,
