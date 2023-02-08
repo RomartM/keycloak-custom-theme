@@ -322,4 +322,3 @@ export class AccountPage extends React.Component {
 _defineProperty(AccountPage, "contextType", AccountServiceContext);
 
 ;
-//# sourceMappingURL=AccountPage.js.map
