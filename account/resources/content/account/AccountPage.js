@@ -224,8 +224,8 @@ export class AccountPage extends React.Component {
     }, /*#__PURE__*/React.createElement(TextInput, {
       isRequired: true,
       type: "text",
-      id: "first-name",
-      name: "firstName",
+      id: "id-number",
+      name: "id-number",
       maxLength: 254,
       value: fields.attributes.idNumber,
       onChange: value => this.setState({
