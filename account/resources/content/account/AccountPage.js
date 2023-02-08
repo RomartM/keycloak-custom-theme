@@ -51,18 +51,15 @@ export class AccountPage extends React.Component {
         firstName: '',
         lastName: '',
         email: '',
-        attributes: {
-          idNumber: ''
-        }
+        idNumber: ''
       },
       formFields: {
         username: '',
         firstName: '',
         lastName: '',
         email: '',
-        attributes: {
-          idNumber: ''
-        }
+        idNumber: '',
+        attributes: {}
       }
     });
 
@@ -216,27 +213,20 @@ export class AccountPage extends React.Component {
       iconPosition: "right"
     }, /*#__PURE__*/React.createElement(Msg, {
       msgKey: "updateEmail"
-    }))))), fields.attributes.idNumber != undefined && /*#__PURE__*/React.createElement(FormGroup, {
+    }))))), fields.idNumber != undefined && /*#__PURE__*/React.createElement(FormGroup, {
       label: Msg.localize("idNumber"),
       fieldId: "id-number",
-      helperTextInvalid: this.state.errors.attributes.idNumber,
-      validated: this.state.errors.attributes.idNumber !== "" ? ValidatedOptions.error : ValidatedOptions.default
+      helperTextInvalid: this.state.errors.idNumber,
+      validated: this.state.errors.idNumber !== "" ? ValidatedOptions.error : ValidatedOptions.default
     }, /*#__PURE__*/React.createElement(TextInput, {
       isRequired: true,
       type: "text",
       id: "id-number",
       name: "id-number",
       maxLength: 254,
-      value: fields.attributes.idNumber,
-      onChange: value => this.setState({
-        errors: this.state.errors,
-        formFields: { ...this.state.formFields,
-          attributes: { ...this.state.formFields.attributes,
-            idNumber: [value]
-          }
-        }
-      }),
-      validated: this.state.errors.attributes.idNumber !== "" ? ValidatedOptions.error : ValidatedOptions.default
+      value: fields.idNumber,
+      onChange: this.handleChange,
+      validated: this.state.errors.idNumber !== "" ? ValidatedOptions.error : ValidatedOptions.default
     })),fields.firstName != undefined && /*#__PURE__*/React.createElement(FormGroup, {
       label: Msg.localize("firstName"),
       fieldId: "first-name",
