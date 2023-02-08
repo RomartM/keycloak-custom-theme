@@ -51,7 +51,8 @@ export class AccountPage extends React.Component {
         firstName: '',
         lastName: '',
         email: '',
-        idNumber: ''
+        idNumber: '',
+        contactNumber: '',
       },
       formFields: {
         username: '',
@@ -60,6 +61,7 @@ export class AccountPage extends React.Component {
         email: '',
         attributes: {
           idNumber: '',
+          contactNumber: '',
         }
       }
     });
@@ -268,7 +270,28 @@ export class AccountPage extends React.Component {
       label: Msg.localize("selectLocale"),
       isRequired: true,
       fieldId: "locale"
-    }, /*#__PURE__*/React.createElement(LocaleSelector, {
+    }, React.createElement(FormGroup, {
+      label: Msg.localize("contactNumber"),
+      fieldId: "contactNumber",
+      helperTextInvalid: this.state.errors.contactNumber,
+      validated: this.state.errors.contactNumber !== "" ? ValidatedOptions.error : ValidatedOptions.default
+    }, /*#__PURE__*/React.createElement(TextInput, {
+      isRequired: true,
+      type: "text",
+      id: "contactNumber",
+      name: "contactNumber",
+      maxLength: 254,
+      value: fields.attributes.contactNumber,
+      onChange: value => this.setState({
+        errors: this.state.errors,
+        formFields: { ...this.state.formFields,
+          attributes: { ...this.state.formFields.attributes,
+            contactNumber: [value]
+          }
+        }
+      }),
+      validated: this.state.errors.idNumber !== "" ? ValidatedOptions.error : ValidatedOptions.default
+    })), /*#__PURE__*/React.createElement(LocaleSelector, {
       id: "locale-selector",
       value: fields.attributes.locale || "",
       onChange: value => this.setState({
