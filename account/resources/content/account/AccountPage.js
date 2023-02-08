@@ -232,7 +232,12 @@ export class AccountPage extends React.Component {
       filename: this.filename,
       filenamePlaceholder: "Drag and drop a file or upload one",
       onFileInputChange: (_event, file)=>{
-        this.setFilename(file.name);
+        const formData = {
+          'photo': file
+        }
+        this.context.doPost("https://api.buksu.edu.ph/avatar/media", formData).then((response) => {
+          console.log(response);
+        });
       },
       onClearClick: ()=>this.setState({
         errors: this.state.errors,
