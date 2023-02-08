@@ -13,3 +13,7 @@ body {
   --pf-c-nav__simple-list-link--Color: #0b3c6d;
   --pf-c-nav__simple-list-link--m-current--Color: #001c38;
 }
+
+.brand {
+  height: 56px;
+}
