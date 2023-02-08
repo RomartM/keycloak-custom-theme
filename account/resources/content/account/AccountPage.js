@@ -90,6 +90,7 @@ export class AccountPage extends React.Component {
       if (isValid) {
         const reqData = { ...this.state.formFields
         };
+        console.log(reqData);
         this.context.doPost("/", reqData).then(() => {
           ContentAlert.success('accountUpdatedMessage');
 
@@ -213,7 +214,7 @@ export class AccountPage extends React.Component {
       iconPosition: "right"
     }, /*#__PURE__*/React.createElement(Msg, {
       msgKey: "updateEmail"
-    }))))), fields.idNumber != undefined && /*#__PURE__*/React.createElement(FormGroup, {
+    }))))), React.createElement(FormGroup, {
       label: Msg.localize("idNumber"),
       fieldId: "id-number",
       helperTextInvalid: this.state.errors.idNumber,
