@@ -50,7 +50,10 @@ export class AccountPage extends React.Component {
         username: '',
         firstName: '',
         lastName: '',
-        email: ''
+        email: '',
+        attributes: {
+          idNumber: ''
+        }
       },
       formFields: {
         username: '',
