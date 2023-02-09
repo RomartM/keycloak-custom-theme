@@ -233,9 +233,10 @@ export class AccountPage extends React.Component {
       filenamePlaceholder: "Drag and drop a file or upload one",
       onFileInputChange: (_event, file)=>{
         const formData = {
-          'photo': file
+          'name': file.name,
+          'file': file
         }
-        this.context.doPost("https://api.buksu.edu.ph/avatar/media", formData).then((response) => {
+        this.context.doPut("https://api.buksu.edu.ph/avatar/core/media/upload/", formData).then((response) => {
           console.log(response);
         });
       },
