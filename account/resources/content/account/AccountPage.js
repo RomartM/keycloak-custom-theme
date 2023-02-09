@@ -245,6 +245,8 @@ export class AccountPage extends React.Component {
             'name': file.name,
             'file': binaryData
           }
+          console.log(binaryData);
+          console.log(formData);
           this.context.doPut("https://api.buksu.edu.ph/avatar/core/media/upload/", formData).then((response) => {
             console.log(response);
           });
