@@ -238,9 +238,10 @@ export class AccountPage extends React.Component {
         reader.readAsArrayBuffer(fileX);
         reader.onload = (e) => {
           const binaryData = e.target.result;
-          const formData = new FormData();
-          formData.append('file', new Blob([binaryData]), file.name);
-          formData.append('name', file.name);
+          const formData = {
+            'file': new Blob([binaryData]),
+            'name': file.name
+          };
           console.log(formData);
           this.context.doPut("https://api.buksu.edu.ph/avatar/core/media/upload/", formData).then((response) => {
             console.log(response);
