@@ -232,15 +232,23 @@ export class AccountPage extends React.Component {
       filename: this.filename,
       filenamePlaceholder: "Drag and drop a file or upload one",
       onFileInputChange: (_event, file)=>{
-        console.log(_event);
-        console.log(file);
-        const formData = {
-          'name': file.name,
-          'file': file
-        }
-        this.context.doPut("https://api.buksu.edu.ph/avatar/core/media/upload/", formData).then((response) => {
-          console.log(response);
-        });
+        const fileX = _event.target.files[0];
+
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(fileX);
+        reader.onload = (e) => {
+          const binaryData = e.target.result;
+          console.log(binaryData);
+          console.log(_event);
+          console.log(file);
+          const formData = {
+            'name': file.name,
+            'file': binaryData
+          }
+          this.context.doPut("https://api.buksu.edu.ph/avatar/core/media/upload/", formData).then((response) => {
+            console.log(response);
+          });
+        };
       },
       onClearClick: ()=>this.setState({
         errors: this.state.errors,
