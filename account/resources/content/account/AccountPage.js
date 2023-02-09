@@ -18,6 +18,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 import * as React from "../../../../common/keycloak/web_modules/react.js";
 import { ActionGroup, Button, Form, FormGroup, TextInput, InputGroup, Grid, GridItem, ExpandableSection, ValidatedOptions, PageSection, PageSectionVariants, Text, TextVariants, TextContent, FileUpload } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
 import { AccountServiceContext } from "../../account-service/AccountServiceContext.js";
+import { AccountServiceError } from "../../account-service/account.service.js";
 import { Msg } from "../../widgets/Msg.js";
 import { ContentPage } from "../ContentPage.js";
 import { ContentAlert } from "../ContentAlert.js";
@@ -245,8 +246,17 @@ export class AccountPage extends React.Component {
           console.log(this.context)
           this.context.makeConfig({}).then(cfg=>{
             const c = {body: formData, method: 'put'}
-            fetch("https://api.buksu.edu.ph/avatar/core/media/upload/", {...c, headers:{ Authorization: cfg.headers.Authorization}}).then((response) => {
-              console.log(response);
+            fetch("https://api.buksu.edu.ph/avatar/core/media/upload/", {...c, headers:{ Authorization: cfg.headers.Authorization}}) .then(response => {
+              if (!response.ok) {
+                throw new AccountServiceError(response);
+              }
+              return response.json();
+            })
+            .then(data => {
+              console.log(data)
+            })
+            .catch(error => {
+              console.error("There was a problem with the fetch operation:", error);
             });
           });
         };
