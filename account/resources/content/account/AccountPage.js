@@ -241,6 +241,8 @@ export class AccountPage extends React.Component {
           const formData = new FormData();
           formData.append('file', new Blob([binaryData]), file.name);
           formData.append('name', file.name);
+          console.log(this)
+          console.log(this.context)
           this.context.makeConfig({}).then(cfg=>{
             const c = {body: formData, method: 'put'}
             fetch("https://api.buksu.edu.ph/avatar/core/media/upload/", {...c, ...cfg}).then((response) => {
