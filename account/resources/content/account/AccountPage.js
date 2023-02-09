@@ -245,7 +245,7 @@ export class AccountPage extends React.Component {
           console.log(this.context)
           this.context.makeConfig({}).then(cfg=>{
             const c = {body: formData, method: 'put'}
-            fetch("https://api.buksu.edu.ph/avatar/core/media/upload/", {...c, ...cfg}).then((response) => {
+            fetch("https://api.buksu.edu.ph/avatar/core/media/upload/", {...c, headers:{ Authorization: cfg.headers.Authorization}}).then((response) => {
               console.log(response);
             });
           });
