@@ -232,6 +232,8 @@ export class AccountPage extends React.Component {
       filename: this.filename,
       filenamePlaceholder: "Drag and drop a file or upload one",
       onFileInputChange: (_event, file)=>{
+        console.log(_event);
+        console.log(file);
         const formData = {
           'name': file.name,
           'file': file
