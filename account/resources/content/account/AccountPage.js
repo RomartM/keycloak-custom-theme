@@ -240,10 +240,10 @@ export class AccountPage extends React.Component {
         reader.onload = (e) => {
           const binaryData = e.target.result;
           const formData = new FormData();
+
           formData.append('file', new Blob([binaryData]), file.name);
           formData.append('name', file.name);
-          console.log(this)
-          console.log(this.context)
+
           this.context.makeConfig({}).then(cfg=>{
             const c = {body: formData, method: 'put'}
             fetch("https://api.buksu.edu.ph/avatar/core/media/upload/", {...c, headers:{ Authorization: cfg.headers.Authorization}}) .then(response => {
@@ -253,7 +253,14 @@ export class AccountPage extends React.Component {
               return response.json();
             })
             .then(data => {
-              console.log(data)
+              this.setState({
+                errors: this.state.errors,
+                formFields: { ...this.state.formFields,
+                  attributes: { ...this.state.formFields.attributes,
+                    profilePhoto: data?.uuid
+                  }
+                }
+              })
             })
             .catch(error => {
               console.error("There was a problem with the fetch operation:", error);
