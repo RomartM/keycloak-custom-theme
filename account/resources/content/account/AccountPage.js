@@ -165,15 +165,18 @@ export class AccountPage extends React.Component {
         formFields.attributes.locale = [locale];
       }
 
-      this.context.doGet(`https://api.buksu.edu.ph/avatar/core/media/${formFields?.attributes?.profilePhoto[0]}/get/`).then(response=>{
-        const photo_data = response.data;
-        console.log(photo_data)
-      })
-
       this.setState({ ...{
           formFields: formFields
         }
       });
+
+      this.context.doGet(`https://api.buksu.edu.ph/avatar/core/media/${formFields?.attributes?.profilePhoto[0]}/get/`).then(response=>{
+        const photo_data = response.data;
+        this.setState({ ...{
+            photoObject: photo_data
+          }
+        });
+      })
     });
   }
 
@@ -233,11 +236,11 @@ export class AccountPage extends React.Component {
       fieldId: "profilePicture",
       helperTextInvalid: this.state.errors.profilePicture,
       validated: this.state.errors.profilePicture !== "" ? ValidatedOptions.error : ValidatedOptions.default
-    }, React.createElement(Avatar, { src: '', alt: 'avatar', size: 'xl' }),
+    }, React.createElement(Avatar, { src: `https://api.buksu.edu.ph/avatar/${this.state.photoObject.file}`, alt: 'avatar', size: 'xl' }),
       /*#__PURE__*/React.createElement(FileUpload, {
       id: "profilePicture",
       value: fields.attributes.profilePicture,
-      filename: fields.attributes.profilePicture,
+      filename: this.state.photoObject.name,
       filenamePlaceholder: "Drag and drop a file or upload one",
       onFileInputChange: (_event, file)=>{
         const fileX = _event.target.files[0];
