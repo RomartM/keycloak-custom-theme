@@ -170,14 +170,18 @@ export class AccountPage extends React.Component {
         }
       });
 
-      this.context.doGet(`https://api.buksu.edu.ph/avatar/core/media/${formFields?.attributes?.profilePhoto[0]}/get/`).then(response=>{
-        const photo_data = response.data;
-        this.setState({ ...{
-            photoObject: photo_data
-          }
-        });
-      })
+      this.fetchProfilePhoto(formFields?.attributes?.profilePhoto[0])
     });
+  }
+
+  fetchProfilePhoto(uuid) {
+    this.context.doGet(`https://api.buksu.edu.ph/avatar/core/media/${uuid}/get/`).then(response=>{
+      const photo_data = response.data;
+      this.setState({ ...{
+          photoObject: photo_data
+        }
+      });
+    })
   }
 
   render() {
@@ -234,7 +238,8 @@ export class AccountPage extends React.Component {
                             profilePhoto: data?.uuid
                           }
                         }
-                      })
+                      });
+                      this.fetchProfilePhoto(data?.uuid)
                     })
                     .catch(error => {
                       console.error("There was a problem with the fetch operation:", error);
@@ -248,7 +253,8 @@ export class AccountPage extends React.Component {
               attributes: { ...this.state.formFields.attributes,
                 profilePhoto: ''
               }
-            }
+            },
+            profileObject: {}
           }),
           browseButtonText: "Upload Photo"
         })), !this.isRegistrationEmailAsUsername && /*#__PURE__*/React.createElement(FormGroup, {
