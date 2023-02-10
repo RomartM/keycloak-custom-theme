@@ -195,7 +195,63 @@ export class AccountPage extends React.Component {
     }, Msg.localize('allFieldsRequired'))), /*#__PURE__*/React.createElement(Form, {
       onSubmit: event => this.handleSubmit(event),
       className: "personal-info-form"
-    }, !this.isRegistrationEmailAsUsername && /*#__PURE__*/React.createElement(FormGroup, {
+    }, React.createElement(FormGroup, {
+          label: Msg.localize("profilePicture"),
+          fieldId: "profilePicture",
+          helperTextInvalid: this.state.errors.profilePicture,
+          validated: this.state.errors.profilePicture !== "" ? ValidatedOptions.error : ValidatedOptions.default
+        }, React.createElement(Avatar, { src: `https://api.buksu.edu.ph${this.state.photoObject.file}`, alt: 'avatar', size: 'xl' }),
+        /*#__PURE__*/React.createElement(FileUpload, {
+          id: "profilePicture",
+          value: fields.attributes.profilePicture,
+          filename: this.state.photoObject.name,
+          filenamePlaceholder: "Drag and drop a file or upload one",
+          onFileInputChange: (_event, file)=>{
+            const fileX = _event.target.files[0];
+
+            const reader = new FileReader();
+            reader.readAsArrayBuffer(fileX);
+            reader.onload = (e) => {
+              const binaryData = e.target.result;
+              const formData = new FormData();
+
+              formData.append('file', new Blob([binaryData]), file.name);
+              formData.append('name', file.name);
+
+              this.context.makeConfig({}).then(cfg=>{
+                const c = {body: formData, method: 'put'}
+                fetch("https://api.buksu.edu.ph/avatar/core/media/upload/", {...c, headers:{ Authorization: cfg.headers.Authorization}}) .then(response => {
+                  if (!response.ok) {
+                    throw new AccountServiceError(response);
+                  }
+                  return response.json();
+                })
+                    .then(data => {
+                      this.setState({
+                        errors: this.state.errors,
+                        formFields: { ...this.state.formFields,
+                          attributes: { ...this.state.formFields.attributes,
+                            profilePhoto: data?.uuid
+                          }
+                        }
+                      })
+                    })
+                    .catch(error => {
+                      console.error("There was a problem with the fetch operation:", error);
+                    });
+              });
+            };
+          },
+          onClearClick: ()=>this.setState({
+            errors: this.state.errors,
+            formFields: { ...this.state.formFields,
+              attributes: { ...this.state.formFields.attributes,
+                profilePhoto: ''
+              }
+            }
+          }),
+          browseButtonText: "Upload Photo"
+        })), !this.isRegistrationEmailAsUsername && /*#__PURE__*/React.createElement(FormGroup, {
       label: Msg.localize("username"),
       fieldId: "user-name",
       helperTextInvalid: this.state.errors.username,
@@ -231,63 +287,7 @@ export class AccountPage extends React.Component {
       iconPosition: "right"
     }, /*#__PURE__*/React.createElement(Msg, {
       msgKey: "updateEmail"
-    }))))),React.createElement(FormGroup, {
-      label: Msg.localize("profilePicture"),
-      fieldId: "profilePicture",
-      helperTextInvalid: this.state.errors.profilePicture,
-      validated: this.state.errors.profilePicture !== "" ? ValidatedOptions.error : ValidatedOptions.default
-    }, React.createElement(Avatar, { src: `https://api.buksu.edu.ph/avatar/${this.state.photoObject.file}`, alt: 'avatar', size: 'xl' }),
-      /*#__PURE__*/React.createElement(FileUpload, {
-      id: "profilePicture",
-      value: fields.attributes.profilePicture,
-      filename: this.state.photoObject.name,
-      filenamePlaceholder: "Drag and drop a file or upload one",
-      onFileInputChange: (_event, file)=>{
-        const fileX = _event.target.files[0];
-
-        const reader = new FileReader();
-        reader.readAsArrayBuffer(fileX);
-        reader.onload = (e) => {
-          const binaryData = e.target.result;
-          const formData = new FormData();
-
-          formData.append('file', new Blob([binaryData]), file.name);
-          formData.append('name', file.name);
-
-          this.context.makeConfig({}).then(cfg=>{
-            const c = {body: formData, method: 'put'}
-            fetch("https://api.buksu.edu.ph/avatar/core/media/upload/", {...c, headers:{ Authorization: cfg.headers.Authorization}}) .then(response => {
-              if (!response.ok) {
-                throw new AccountServiceError(response);
-              }
-              return response.json();
-            })
-            .then(data => {
-              this.setState({
-                errors: this.state.errors,
-                formFields: { ...this.state.formFields,
-                  attributes: { ...this.state.formFields.attributes,
-                    profilePhoto: data?.uuid
-                  }
-                }
-              })
-            })
-            .catch(error => {
-              console.error("There was a problem with the fetch operation:", error);
-            });
-          });
-        };
-      },
-      onClearClick: ()=>this.setState({
-        errors: this.state.errors,
-        formFields: { ...this.state.formFields,
-          attributes: { ...this.state.formFields.attributes,
-            profilePhoto: ''
-          }
-        }
-      }),
-      browseButtonText: "Upload Photo"
-    })), React.createElement(FormGroup, {
+    }))))), React.createElement(FormGroup, {
       label: Msg.localize("contactNumber"),
       fieldId: "contactNumber",
       helperTextInvalid: this.state.errors.contactNumber,
