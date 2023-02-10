@@ -16,7 +16,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * limitations under the License.
  */
 import * as React from "../../../../common/keycloak/web_modules/react.js";
-import { ActionGroup, Button, Form, FormGroup, TextInput, InputGroup, Grid, GridItem, ExpandableSection, ValidatedOptions, PageSection, PageSectionVariants, Text, TextVariants, TextContent, FileUpload } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
+import { Avatar, ActionGroup, Button, Form, FormGroup, TextInput, InputGroup, Grid, GridItem, ExpandableSection, ValidatedOptions, PageSection, PageSectionVariants, Text, TextVariants, TextContent, FileUpload } from "../../../../common/keycloak/web_modules/@patternfly/react-core.js";
 import { AccountServiceContext } from "../../account-service/AccountServiceContext.js";
 import { AccountServiceError } from "../../account-service/account.service.js";
 import { Msg } from "../../widgets/Msg.js";
@@ -66,7 +66,8 @@ export class AccountPage extends React.Component {
         contactNumber: '',
         profilePhoto: ''
         }
-      }
+      },
+      photoObject: {}
     });
 
     _defineProperty(this, "state", this.DEFAULT_STATE);
@@ -164,6 +165,11 @@ export class AccountPage extends React.Component {
         formFields.attributes.locale = [locale];
       }
 
+      this.context.doGet(`https://api.buksu.edu.ph/avatar/core/media/${formFields?.attributes?.profilePhoto[0]}/get/`).then(response=>{
+        const photo_data = response.data;
+        console.log(photo_data)
+      })
+
       this.setState({ ...{
           formFields: formFields
         }
@@ -222,15 +228,16 @@ export class AccountPage extends React.Component {
       iconPosition: "right"
     }, /*#__PURE__*/React.createElement(Msg, {
       msgKey: "updateEmail"
-    }))))), React.createElement(FormGroup, {
+    }))))),React.createElement(FormGroup, {
       label: Msg.localize("profilePicture"),
       fieldId: "profilePicture",
       helperTextInvalid: this.state.errors.profilePicture,
       validated: this.state.errors.profilePicture !== "" ? ValidatedOptions.error : ValidatedOptions.default
-    },  /*#__PURE__*/React.createElement(FileUpload, {
+    }, React.createElement(Avatar, { src: '', alt: 'avatar', size: 'xl' }),
+      /*#__PURE__*/React.createElement(FileUpload, {
       id: "profilePicture",
       value: fields.attributes.profilePicture,
-      filename: this.filename,
+      filename: fields.attributes.profilePicture,
       filenamePlaceholder: "Drag and drop a file or upload one",
       onFileInputChange: (_event, file)=>{
         const fileX = _event.target.files[0];
