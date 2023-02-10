@@ -19,3 +19,20 @@ body {
   padding-top: 5px !important;
 
 }
+
+#spinner_screen {
+  background-color: var(--pf-global--Color--100) !important;
+}
+
+#spinner_screen svg {
+  background: var(--pf-global--Color--100) !important;
+}
+
+#spinner_screen img.brand {
+  height: 80px !important;
+  margin-bottom: 50px;
+}
+
+#spinner_screen p {
+  color: #c3c3c3;
+}
